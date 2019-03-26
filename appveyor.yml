@@ -21,7 +21,7 @@ after_build:
 
 
 artifacts:
-    - path: "steam_game_stat_tracker.zip"
+    - path: "*"
 
 deploy:
   release: steam_game_stat_tracker-v$(appveyor_build_version)

@@ -6,7 +6,7 @@ matrix:
           python: 3.7-dev
 
 install:
-    - pip install pyinstaller pep8
+    - pip install --no-warn-script-location pyinstaller pep8
     - echo "__version__ = '$(git describe --tags --always)'" > steamgamestattracker/version.py
     - cat steamgamestattracker/version.py
     - pip install -r requirements.txt
