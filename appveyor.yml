@@ -14,6 +14,9 @@ install:
     - "%PYTHON%\\Scripts\\pip install -r requirements.txt"
 
 build:
+  verbosity: normal
+
+build_script:
     - "%PYTHON%\\Scripts\\pyinstaller steam_game_stat_tracker.py"
 
 after_build:
