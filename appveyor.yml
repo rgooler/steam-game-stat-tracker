@@ -19,8 +19,8 @@ build:
 build_script:
     - "%PYTHON%\\Scripts\\pyinstaller steam_game_stat_tracker.py"
 
-after_build:
-  - ps: 7z a steam_game_stat_tracker.zip %APPVEYOR_BUILD_FOLDER%\dist\steam_game_stat_tracker\*
+#after_build:
+#  - ps: 7z a steam_game_stat_tracker.zip %APPVEYOR_BUILD_FOLDER%\dist\steam_game_stat_tracker\*
 
 
 artifacts:
