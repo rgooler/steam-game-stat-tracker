@@ -28,15 +28,44 @@ artifacts:
     - path: "steam_game_stat_tracker-*-windows.7z"
 
 deploy:
-  release: steam_game_stat_tracker-v$(appveyor_build_version)
-  description: 'Test release'
-  provider: GitHub
-  auth_token:
-    secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
- # your encrypted token from GitHub
-  artifact: "steam_game_stat_tracker-*-windows.*"
-  draft: true
-  prerelease: false
-  on:
-    branch: master                 # release from master branch only
-    #APPVEYOR_REPO_TAG: true        # deploy on tag push only
+  - provider: GitHub
+    release: steam_game_stat_tracker-v$(appveyor_build_version)
+    auth_token:
+      secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
+    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows.zip"
+    draft: true
+    prerelease: false
+    on:
+      branch: master                 # release from master branch only
+
+  - provider: GitHub
+    release: steam_game_stat_tracker-v$(appveyor_build_version)
+    auth_token:
+      secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
+    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows.7z"
+    draft: true
+    prerelease: false
+    on:
+      branch: master                 # release from master branch only
+
+  - provider: GitHub
+    release: steam_game_stat_tracker-v$(appveyor_build_version)
+    auth_token:
+      secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
+    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows.zip"
+    draft: false
+    prerelease: true
+    on:
+      branch: master                 # release from master branch only
+      APPVEYOR_REPO_TAG: true
+
+  - provider: GitHub
+    release: steam_game_stat_tracker-v$(appveyor_build_version)
+    auth_token:
+      secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
+    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows.7z"
+    draft: false
+    prerelease: true
+    on:
+      branch: master                 # release from master branch only
+      APPVEYOR_REPO_TAG: true
