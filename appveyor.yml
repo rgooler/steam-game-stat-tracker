@@ -24,6 +24,8 @@ build_script:
 
 artifacts:
     - path: "**"
+    - path: "dist\*"
+    - path: "dist\*\*"
 
 deploy:
   release: steam_game_stat_tracker-v$(appveyor_build_version)
