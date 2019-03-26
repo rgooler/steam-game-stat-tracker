@@ -10,8 +10,8 @@ environment:
 install:
     - "%PYTHON%\\python.exe --version"
     - "%PYTHON%\\Scripts\\pip install pyinstaller"
-    - ps: Set-Content "steamgamestattracker\\version.py" ( "__version__ = '{0}'" -f ( git describe --tags --always ) )
-    - "%PYTHON%\\Scripts\\pip install -e ."
+    - ps: Set-Content "steamgamestattracker\\version.py" ( "__version__ = '{0}'" -f ( $env:APPVEYOR_BUILD_VERSION ) )
+    - "%PYTHON%\\Scripts\\pip install -r requirements.txt"
     - "%PYTHON%\\Scripts\\pyinstaller steam_game_stat_tracker.py"
 
 build: off
