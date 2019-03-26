@@ -1,12 +1,12 @@
 
 #!/usr/bin/env python
 # encoding: utf-8
-from .steamapi import SteamAPI
+from steamgamestattracker.steamapi import SteamAPI
 import json
 import sys
 
 def main():
-    steam = SteamAPI(apikey="****")
+    steam = SteamAPI(apikey="B3E1C11C73B61B18C4A340CB1B464115")
     #jippen = "76561197993843660"
     # games = steam.GetOwnedGames(jippen)
     # game = games['response']['games'][0]['appid']

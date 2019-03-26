@@ -6,22 +6,33 @@ environment:
     matrix:
         - PYTHON: "C:\\Python37"
           ARCH: "32"
-        - PYTHON: "C:\\Python37-x64"
-          ARCH: "64"
 
 install:
     - "%PYTHON%\\python.exe --version"
-    - "%PYTHON%\\Scripts\\pip install https://github.com/williballenthin/vivisect/zipball/master"
     - "%PYTHON%\\Scripts\\pip install pyinstaller"
     - ps: Set-Content "steamgamestattracker\\version.py" ( "__version__ = '{0}'" -f ( git describe --tags --always ) )
     - "%PYTHON%\\Scripts\\pip install -e ."
-    - "%PYTHON%\\Scripts\\pyinstaller steamgamestattracker.spec"
-    - "move dist\\*.exe dist\\steamgamestattracker%ARCH%.exe"
+    - "%PYTHON%\\Scripts\\pyinstaller steam_game_stat_tracker.py"
 
 build: off
 
+after_build:
+  - ps: 7z a steam_game_stat_tracker.zip %APPVEYOR_BUILD_FOLDER%\dist\steam_game_stat_tracker\*
+
+
 artifacts:
-    - path: "dist\\steamgamestattracker.exe"
-    - path: "dist\\steamgamestattracker%ARCH%.exe"
-    - path: "dist\\steamgamestattracker32.exe"
-    - path: "dist\\steamgamestattracker64.exe"
+    - path: "steam_game_stat_tracker.zip"
+
+deploy:
+  release: steam_game_stat_tracker-v$(appveyor_build_version)
+  description: 'Test release'
+  provider: GitHub
+  auth_token:
+    secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
+ # your encrypted token from GitHub
+  artifact: "steam_game_stat_tracker.zip"
+  draft: true
+  prerelease: false
+  on:
+    branch: master                 # release from master branch only
+    #APPVEYOR_REPO_TAG: true        # deploy on tag push only
