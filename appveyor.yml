@@ -11,7 +11,7 @@ install:
     - "%PYTHON%\\python.exe --version"
     - "%PYTHON%\\Scripts\\pip install pyinstaller"
     - ps: Set-Content "steamgamestattracker\\version.py" ( "__version__ = '{0}'" -f ( $env:APPVEYOR_BUILD_VERSION ) )
-    - "%PYTHON%\\Scripts\\pip install -r requirements.txt"
+    - "%PYTHON%\\Scripts\\pip install --no-warn-script-location -r requirements.txt"
 
 build:
   verbosity: normal
@@ -24,7 +24,7 @@ build_script:
 
 
 artifacts:
-    - path: "*"
+    - path: "%APPVEYOR_BUILD_FOLDER%\*"
 
 deploy:
   release: steam_game_stat_tracker-v$(appveyor_build_version)
