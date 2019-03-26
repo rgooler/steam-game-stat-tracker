@@ -9,7 +9,7 @@ environment:
 
 install:
     - "%PYTHON%\\python.exe --version"
-    - "%PYTHON%\\Scripts\\pip install pyinstaller"
+    - "%PYTHON%\\Scripts\\pip install --no-warn-script-location pyinstaller"
     - ps: Set-Content "steamgamestattracker\\version.py" ( "__version__ = '{0}'" -f ( $env:APPVEYOR_BUILD_VERSION ) )
     - "%PYTHON%\\Scripts\\pip install --no-warn-script-location -r requirements.txt"
 
@@ -22,9 +22,8 @@ build_script:
 #after_build:
 #  - ps: 7z a steam_game_stat_tracker.zip %APPVEYOR_BUILD_FOLDER%\dist\steam_game_stat_tracker\*
 
-
 artifacts:
-    - path: "%APPVEYOR_BUILD_FOLDER%\*"
+    - path: "**"
 
 deploy:
   release: steam_game_stat_tracker-v$(appveyor_build_version)
