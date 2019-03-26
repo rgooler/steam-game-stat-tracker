@@ -21,9 +21,11 @@ build_script:
 
 after_build:
   - ps: 7z a steam_game_stat_tracker-$env:APPVEYOR_BUILD_VERSION-windows.zip .\dist\steam_game_stat_tracker\*
+  - ps: 7z a steam_game_stat_tracker-$env:APPVEYOR_BUILD_VERSION-windows.7z .\dist\steam_game_stat_tracker\*
 
 artifacts:
-    - path: "steam_game_stat_tracker-$env:APPVEYOR_BUILD_VERSION-windows.zip"
+    - path: "steam_game_stat_tracker-*-windows.zip"
+    - path: "steam_game_stat_tracker-*-windows.7z"
 
 deploy:
   release: steam_game_stat_tracker-v$(appveyor_build_version)
@@ -32,7 +34,7 @@ deploy:
   auth_token:
     secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
  # your encrypted token from GitHub
-  artifact: "steam_game_stat_tracker-$env:APPVEYOR_BUILD_VERSION-windows.zip"
+  artifact: "steam_game_stat_tracker-*-windows.*"
   draft: true
   prerelease: false
   on:
