@@ -6,6 +6,8 @@ environment:
     matrix:
         - PYTHON: "C:\\Python37"
           ARCH: "32"
+        - PYTHON: "C:\\Python37"
+          ARCH: "64"
 
 install:
     - "%PYTHON%\\python.exe --version"
@@ -17,42 +19,47 @@ build:
   verbosity: normal
 
 build_script:
-    - "%PYTHON%\\Scripts\\pyinstaller steam_game_stat_tracker.py"
+    - "%PYTHON%\\Scripts\\pyinstaller --onefile --icon icon.ico steam_game_stat_tracker.py"
 
 after_build:
-  - ps: 7z a steam_game_stat_tracker-$env:APPVEYOR_BUILD_VERSION-windows.zip .\dist\steam_game_stat_tracker\*
-  - ps: 7z a steam_game_stat_tracker-$env:APPVEYOR_BUILD_VERSION-windows.7z .\dist\steam_game_stat_tracker\*
+  - ps: 7z a steam_game_stat_tracker-$env:APPVEYOR_BUILD_VERSION-windows-$env:ARCH.zip .\dist\* LICENSE
 
 artifacts:
-    - path: "steam_game_stat_tracker-*-windows.zip"
-    - path: "steam_game_stat_tracker-*-windows.7z"
+    - path: "steam_game_stat_tracker-*-windows-32.zip"
+    - path: "steam_game_stat_tracker-*-windows-64.zip"
 
 deploy:
+  ################################################################################
+  # Release untagged versaions as drafts
   - provider: GitHub
-    release: steam_game_stat_tracker-v$(appveyor_build_version)
+    release: draft-v$(appveyor_build_version)
     auth_token:
       secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
-    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows.zip"
+    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows-32.zip"
     draft: true
     prerelease: false
     on:
       branch: master                 # release from master branch only
+      APPVEYOR_REPO_TAG: false
 
   - provider: GitHub
-    release: steam_game_stat_tracker-v$(appveyor_build_version)
+    release: draft-v$(appveyor_build_version)
     auth_token:
       secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
-    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows.7z"
+    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows-64.zip"
     draft: true
     prerelease: false
     on:
       branch: master                 # release from master branch only
+      APPVEYOR_REPO_TAG: false
 
+  ################################################################################
+  # Release tagged versaions as pre-release
   - provider: GitHub
-    release: steam_game_stat_tracker-v$(appveyor_build_version)
+    release: v$(appveyor_build_version)
     auth_token:
       secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
-    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows.zip"
+    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows-32.zip"
     draft: false
     prerelease: true
     on:
@@ -60,10 +67,10 @@ deploy:
       APPVEYOR_REPO_TAG: true
 
   - provider: GitHub
-    release: steam_game_stat_tracker-v$(appveyor_build_version)
+    release: v$(appveyor_build_version)
     auth_token:
       secure: 208TDvAq+KHsvan3IIpa1CyuzFxO7cw/0zMjSxogqBGbnkNUxQU6g6YUiekFAWRC
-    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows.7z"
+    artifact: "steam_game_stat_tracker-$(appveyor_build_version)-windows-64.zip"
     draft: false
     prerelease: true
     on:
